@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Temperature Converter</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+        }
+
+        .converter {
+            background: #ffffff;
+            width: 360px;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+            text-align: center;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+            letter-spacing: 1px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #6a82fb;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            font-size: 16px;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 14px;
+            font-size: 18px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .error {
+            margin-top: 12px;
+            color: #d8000c;
+            font-size: 14px;
+        }
+
+        /* 🔥 High visibility result */
+        .result {
+            margin-top: 25px;
+            padding: 22px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #43cea2, #185a9d);
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+            animation: pop 0.4s ease-in-out;
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        footer {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="converter">
+    <h2>🌡️ Temperature Converter</h2>
+
+    <input type="text" id="tempInput" placeholder="Enter temperature">
+
+    <select id="unit">
+        <option value="celsius">Celsius (°C)</option>
+        <option value="fahrenheit">Fahrenheit (°F)</option>
+        <option value="kelvin">Kelvin (K)</option>
+    </select>
+
+    <button onclick="convertTemp()">Convert</button>
+
+    <div class="error" id="errorMsg"></div>
+
+    <div class="result" id="result"></div>
+
+    <footer>Simple • Fast • Accurate</footer>
+</div>
+
+<script>
+    function convertTemp() {
+        const input = document.getElementById("tempInput").value;
+        const unit = document.getElementById("unit").value;
+        const result = document.getElementById("result");
+        const error = document.getElementById("errorMsg");
+
+        result.innerHTML = "";
+        error.innerHTML = "";
+
+        if (input === "" || isNaN(input)) {
+            error.innerHTML = "Please enter a valid numeric value.";
+            return;
+        }
+
+        let temp = parseFloat(input);
+
+        if (unit === "celsius") {
+            result.innerHTML = `
+                ${(temp * 9/5 + 32).toFixed(2)} °F  |  ${(temp + 273.15).toFixed(2)} K
+            `;
+        } 
+        else if (unit === "fahrenheit") {
+            let c = (temp - 32) * 5/9;
+            result.innerHTML = `
+                ${c.toFixed(2)} °C  |  ${(c + 273.15).toFixed(2)} K
+            `;
+        } 
+        else {
+            let c = temp - 273.15;
+            result.innerHTML = `
+                ${c.toFixed(2)} °C  |  ${(c * 9/5 + 32).toFixed(2)} °F
+            `;
+        }
+    }
+</script>
+
+</body>
+</html>
